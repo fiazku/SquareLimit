@@ -46,6 +46,14 @@ func copyAbove(square: UIView, scale: CGFloat) -> UIView {
     return UIView(frame: frame)
 }
 
+func colorForIteration(iteration: Int) -> UIColor {
+    if iteration % 2 == 0 {
+        return UIColor.purpleColor()
+    } else {
+        return UIColor.greenColor()
+    }
+}
+
 class ViewController: UIViewController {
 
     override func viewDidLoad() {
@@ -53,27 +61,21 @@ class ViewController: UIViewController {
 
         let squareFrame = CGRect(x: 200, y: 300, width: 20, height: 20)
         let square = UIView(frame: squareFrame)
-        square.backgroundColor = UIColor.redColor()
+        square.backgroundColor = UIColor.greenColor()
         self.view.addSubview(square)
 
-        drawHorizontal(square, scale: 0.9, iteration: 20, hFunc: copyRight, vFunc: copyAbove)
-        drawHorizontal(square, scale: 0.9, iteration: 20, hFunc: copyLeft, vFunc: copyBelow)
+        drawHorizontal(square, scale: 0.9, iteration: 40, hFunc: copyRight, vFunc: copyAbove)
+        drawHorizontal(square, scale: 0.9, iteration: 40, hFunc: copyLeft, vFunc: copyBelow)
 
-        drawHorizontal(square, scale: 0.9, iteration: 20, hFunc: copyRight, vFunc: copyBelow)
-        drawHorizontal(square, scale: 0.9, iteration: 20, hFunc: copyLeft, vFunc: copyAbove)
+        drawHorizontal(square, scale: 0.9, iteration: 40, hFunc: copyRight, vFunc: copyBelow)
+        drawHorizontal(square, scale: 0.9, iteration: 40, hFunc: copyLeft, vFunc: copyAbove)
     }
 
 
     func drawHorizontal(square: UIView, scale: CGFloat, iteration: Int, hFunc: CopyFunc, vFunc: CopyFunc) {
         if iteration > 0 {
             let squareCopy = hFunc(square, scale)
-
-            if iteration % 2 == 0 {
-                squareCopy.backgroundColor = UIColor.orangeColor()
-            } else {
-                squareCopy.backgroundColor = UIColor.redColor()
-            }
-
+            squareCopy.backgroundColor = colorForIteration(iteration)
             self.view.addSubview(squareCopy)
 
             drawVertical(square, scale: scale, iteration: iteration, vFunc: vFunc)
@@ -85,13 +87,7 @@ class ViewController: UIViewController {
     func drawVertical(square: UIView, scale: CGFloat, iteration: Int, vFunc: CopyFunc) {
         if iteration > 0 {
             let squareCopy = vFunc(square, scale)
-
-            if iteration % 2 == 0 {
-                squareCopy.backgroundColor = UIColor.orangeColor()
-            } else {
-                squareCopy.backgroundColor = UIColor.redColor()
-            }
-
+            squareCopy.backgroundColor = colorForIteration(iteration)
             self.view.addSubview(squareCopy)
 
             drawVertical(squareCopy, scale: scale, iteration: iteration - 1, vFunc: vFunc)
